@@ -118,21 +118,31 @@
                 </div>
             </div>
         </div>
+        <button onclick=start()>go</button>
     </div> 
     <script>
         let tagArea = document.getElementById("room");
         let lineArea = document.getElementById("line");
-        let items=["100점","200점","0점","-200점"];
+        let items=["100점","200점","0점","-200점","-100점","10점","2000점"];
         let Number = 360/items.length;
+        let current = 0;
+        let spin = current * Number ;
         // let participants = items.length;
         for(let i=0;i<items.length;i++){
             let participants = i+1;
             let Num = Number*participants;
+            let lineNum = Num-(Number/2);
             tagArea.innerHTML+="<div class='item' style='transform: rotate("+Num+"deg);'>"+items[i]+"</div>";
-            lineArea.innerHTML+="<div class='line' style='transform: rotate("+Num+"deg);'></div>"
+            lineArea.innerHTML+="<div class='line' style='transform: rotate("+lineNum+"deg);'></div>"
+        }
+        function start(){
+            var s=document.createElement('style');
+            let itemArea = document.getElementsByClassName("item");
+            s.innerHTML = ".item{transform:rotate(120deg)}";
+            document.body.appendChild(s);
+            // transform=rotate(spin);
         }
         
-        // tagArea.appendChild("<div class='item'>"+items[0]+"</div>");
         
     </script>
 </body>
