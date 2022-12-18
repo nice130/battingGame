@@ -41,6 +41,7 @@
             bottom: 5%;
             border: 2px solid black;
             border-radius: 50%;
+            transition: transform 5s ease-in-out;
         }
         .roulette-outer>.roulette-pin{
             position:absolute;
@@ -65,18 +66,6 @@
             display: flex;
             justify-content: center;
         }
-        /* .roulette-outer>.roulette>.item-wrapper>.item:nth-child(1){
-            transform: rotate(0deg);
-        }
-        .roulette-outer>.roulette>.item-wrapper>.item:nth-child(2){
-            transform: rotate(90deg);
-        }
-        .roulette-outer>.roulette>.item-wrapper>.item:nth-child(3){
-            transform: rotate(180deg);
-        }
-        .roulette-outer>.roulette>.item-wrapper>.item:nth-child(4){
-            transform: rotate(270deg);
-        } */
 
         .roulette-outer>.roulette>.line-wrapper>.line{
             position:absolute;
@@ -88,19 +77,6 @@
             background: black;
             transform-origin: bottom;
         }
-
-        /* .roulette-outer> .roulette>.line-wrapper>.line:nth-child(1){
-            transform: rotate(45deg);
-        }
-        .roulette-outer> .roulette>.line-wrapper>.line:nth-child(2){
-            transform: rotate(135deg);
-        }
-        .roulette-outer> .roulette>.line-wrapper>.line:nth-child(3){
-            transform: rotate(225deg);
-        }
-        .roulette-outer> .roulette>.line-wrapper>.line:nth-child(4){
-            transform: rotate(315deg);
-        } */
     </style>
 </head>
 <body>
@@ -108,8 +84,8 @@
         <h1>룰렛</h1>
 
         <div class="roulette-outer">
-            <div class="roulette-pin"></div>
-            <div class="roulette">
+            <div class="roulette-pin" id="roulette-pin"></div>
+            <div class="roulette" id="roulette">
                 <!-- 값 영역 -->
                 <div class="item-wrapper" id="room">
                 </div>
@@ -123,24 +99,42 @@
     <script>
         let tagArea = document.getElementById("room");
         let lineArea = document.getElementById("line");
-        let items=["100점","200점","0점","-200점","-100점","10점","2000점"];
+        let roulette = document.getElementById("roulette");
+        let items=["100점","200점","0점","-200점","-100점","10점"];
+        let val = [];
         let Number = 360/items.length;
-        let current = 0;
-        let spin = current * Number ;
+        let spin = 0;
+        let result = 0;
+        let total =0;
+        let count =0;
+        let selectNum;
         // let participants = items.length;
         for(let i=0;i<items.length;i++){
             let participants = i+1;
             let Num = Number*participants;
             let lineNum = Num-(Number/2);
-            tagArea.innerHTML+="<div class='item' style='transform: rotate("+Num+"deg);'>"+items[i]+"</div>";
+            tagArea.innerHTML+="<div class='item' style='transform: rotate("+Num+"deg);' id='item_"+i+"'>"+items[i]+"</div>";
             lineArea.innerHTML+="<div class='line' style='transform: rotate("+lineNum+"deg);'></div>"
+            val[i]= Num;
         }
         function start(){
-            var s=document.createElement('style');
-            let itemArea = document.getElementsByClassName("item");
-            s.innerHTML = ".item{transform:rotate(120deg)}";
-            document.body.appendChild(s);
-            // transform=rotate(spin);
+            count++;
+            let ran = Math.floor(Math.random()*361);//6바퀴를돌고 랜덤으로배열
+            spin += 2160 +ran ;
+            total+=spin;
+            result = total-(2160*count);
+            roulette.style.transform="rotate("+spin+"deg)";
+            let test = result+Number/2;
+            let testMinus = result-Number/2;
+            console.log("결과=>"+result+"낮은값=>"+test+"높은값=>"+testMinus);
+            console.log(val);
+            for(let i=0;i<val.length;i++){
+                let a = val[i];
+                if(testMinus<a && a<test){
+                    selectNum = val[i];
+                    console.log(selectNum);
+                }
+            }
         }
         
         
