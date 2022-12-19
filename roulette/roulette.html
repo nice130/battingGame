@@ -30,7 +30,7 @@
             margin-left: auto;
             margin-right: auto;
             border-radius: 50%;
-            background-color: #76a8f7;
+            background-color: white;
         }
 
         .roulette-outer>.roulette{
@@ -94,50 +94,46 @@
                 </div>
             </div>
         </div>
-        <button onclick=start()>go</button>
-    </div> 
+    </div>
+    <button onclick=start() id="start">start</button>
+    <button onclick=retry() id="retry" style="display:none">retry</button> 
     <script>
         let tagArea = document.getElementById("room");
         let lineArea = document.getElementById("line");
         let roulette = document.getElementById("roulette");
+        let itemRoom = document.getElementsByClassName("item");
         let items=["0점","1점","2점","3점","4점","5점"];
         let val = [];
         let Numbers = 360/items.length;
-        let spin = 0;
-        let result = 0;
-        let total =0;
-        let count =0;
-        // let participants = items.length;
+        
         for(let i=0;i<items.length;i++){
             let participants = i+1;
             let Num = Numbers*participants;
             let lineNum = Num-(Numbers/2);
-            tagArea.innerHTML+="<div class='item' style='transform: rotate("+Num+"deg);' id='"+Num+"' value='"+items[i]+"'>"+items[i]+"</div>";
+            var f_color = "#"+(parseInt(Math.random()*0xffffff)).toString(16);
+            tagArea.innerHTML+="<div class='item' style='color:"+f_color+";transform: rotate("+Num+"deg);'>"+items[i]+"</div>";
             lineArea.innerHTML+="<div class='line' style='transform: rotate("+lineNum+"deg);'></div>"
             val[i]= Num;
         }
         function start(){
-            count++;
             let ran = Math.floor(Math.random()*360);
-            console.log(ran);
+            let spin = ran - 2160 ;
+            roulette.style.transform="rotate("+spin+"deg)";
             let goalNumber = Math.abs(ran - 360);
-            let closestNumber = items.reduce(function (prev, curr) {
+            let closestNumber = val.reduce(function (prev, curr) {
                 return (Math.abs(curr - goalNumber) <= Math.abs(prev - goalNumber) ? curr : prev);
             });
-            let number = Number(items.findIndex(e => e === closestNumber) + 1);
-            console.log(number);
-            spin += 2160 +ran ;
-            roulette.style.transform="rotate("+spin+"deg)";
-            let test = ran+Numbers/2;
-            let testMinus = ran-Numbers/2;
-            console.log("결과=>"+ran+"낮은값=>"+test+"높은값=>"+testMinus);
-            for(let i=0;i<val.length;i++){
-                if(testMinus<val[i] && val[i]<test){
-                    console.log("ㅈㅓㅇ다ㅂ은=>"+items[i]);
-                }
-            }
+            let number = Number(val.findIndex(e=> e === closestNumber));
+            document.getElementById("start").style.display ='none';		
+            document.getElementById("retry").style.display ='block';
+            setTimeout(() => {
+                alert(items[number]+"획득!!");    
+            }, 5000);
+            
         }
-        
+        function retry(){
+            location.reload();
+        }
         
     </script>
 </body>
