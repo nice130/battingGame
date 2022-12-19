@@ -100,39 +100,40 @@
         let tagArea = document.getElementById("room");
         let lineArea = document.getElementById("line");
         let roulette = document.getElementById("roulette");
-        let items=["100점","200점","0점","-200점","-100점","10점"];
+        let items=["0점","1점","2점","3점","4점","5점"];
         let val = [];
-        let Number = 360/items.length;
+        let Numbers = 360/items.length;
         let spin = 0;
         let result = 0;
         let total =0;
         let count =0;
-        let selectNum;
         // let participants = items.length;
         for(let i=0;i<items.length;i++){
             let participants = i+1;
-            let Num = Number*participants;
-            let lineNum = Num-(Number/2);
-            tagArea.innerHTML+="<div class='item' style='transform: rotate("+Num+"deg);' id='item_"+i+"'>"+items[i]+"</div>";
+            let Num = Numbers*participants;
+            let lineNum = Num-(Numbers/2);
+            tagArea.innerHTML+="<div class='item' style='transform: rotate("+Num+"deg);' id='"+Num+"' value='"+items[i]+"'>"+items[i]+"</div>";
             lineArea.innerHTML+="<div class='line' style='transform: rotate("+lineNum+"deg);'></div>"
             val[i]= Num;
         }
         function start(){
             count++;
-            let ran = Math.floor(Math.random()*361);//6바퀴를돌고 랜덤으로배열
+            let ran = Math.floor(Math.random()*360);
+            console.log(ran);
+            let goalNumber = Math.abs(ran - 360);
+            let closestNumber = items.reduce(function (prev, curr) {
+                return (Math.abs(curr - goalNumber) <= Math.abs(prev - goalNumber) ? curr : prev);
+            });
+            let number = Number(items.findIndex(e => e === closestNumber) + 1);
+            console.log(number);
             spin += 2160 +ran ;
-            total+=spin;
-            result = total-(2160*count);
             roulette.style.transform="rotate("+spin+"deg)";
-            let test = result+Number/2;
-            let testMinus = result-Number/2;
-            console.log("결과=>"+result+"낮은값=>"+test+"높은값=>"+testMinus);
-            console.log(val);
+            let test = ran+Numbers/2;
+            let testMinus = ran-Numbers/2;
+            console.log("결과=>"+ran+"낮은값=>"+test+"높은값=>"+testMinus);
             for(let i=0;i<val.length;i++){
-                let a = val[i];
-                if(testMinus<a && a<test){
-                    selectNum = val[i];
-                    console.log(selectNum);
+                if(testMinus<val[i] && val[i]<test){
+                    console.log("ㅈㅓㅇ다ㅂ은=>"+items[i]);
                 }
             }
         }
