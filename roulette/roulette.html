@@ -42,6 +42,8 @@
             border: 2px solid black;
             border-radius: 50%;
             transition: transform 5s ease-in-out;
+            background-image:url('../img/gom.png');
+            background-Size : 150%;
         }
         .roulette-outer>.roulette-pin{
             position:absolute;
@@ -77,11 +79,33 @@
             background: black;
             transform-origin: bottom;
         }
+        .but{
+            border: 1px solid burlywood;
+            background-color: rgba(0,0,0,0);
+            color: brown;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .but:hover{
+            color:white;
+            background-color: burlywood;
+        }
+        #input_Participation{
+            position:absolute;
+        }
     </style>
 </head>
 <body>
     <div id="app">
-        <h1>룰렛</h1>
+        <h1>곰돌이 룰렛</h1>
+        <div id="input_Participation">참가설정
+            <div id="input_area">
+                <li><input placeholder="입력" class="participation"><button class="but" onclick="inputMinus()">-</button></li>
+                <li><input placeholder="입력" class="participation"><button class="but" onclick="inputMinus()">-</button></li>
+            </div>
+            <button class="but" onclick="Additional()">추가</button>
+            <button class="but" onclick="Insertion()">설정</button>
+        </div>
 
         <div class="roulette-outer">
             <div class="roulette-pin" id="roulette-pin"></div>
@@ -95,26 +119,46 @@
             </div>
         </div>
     </div>
-    <button onclick=start() id="start">start</button>
-    <button onclick=retry() id="retry" style="display:none">retry</button> 
+    <div id="but" style="margin-left:48%;">
+        <button onclick=start() id="start" class="but">start</button>
+        <button onclick=retry() id="retry" style="display:none" class="but">retry</button> 
+    </div>
     <script>
         let tagArea = document.getElementById("room");
         let lineArea = document.getElementById("line");
         let roulette = document.getElementById("roulette");
         let itemRoom = document.getElementsByClassName("item");
-        let items=["0점","1점","2점","3점","4점","5점"];
+        let participation = document.getElementsByClassName("participation");
+        let items=[];
         let val = [];
-        let Numbers = 360/items.length;
         
-        for(let i=0;i<items.length;i++){
-            let participants = i+1;
-            let Num = Numbers*participants;
-            let lineNum = Num-(Numbers/2);
-            var f_color = "#"+(parseInt(Math.random()*0xffffff)).toString(16);
-            tagArea.innerHTML+="<div class='item' style='color:"+f_color+";transform: rotate("+Num+"deg);'>"+items[i]+"</div>";
-            lineArea.innerHTML+="<div class='line' style='transform: rotate("+lineNum+"deg);'></div>"
-            val[i]= Num;
+        function Insertion(){
+            let numbers = 360/participation.length;
+            tagArea.innerHTML="";
+            lineArea.innerHTML="";
+            console.log(participation.length);
+            console.log("넘버스"+numbers);
+            for(let i=0;i<participation.length;i++){
+                let participants = i+1;
+                let Num = numbers*participants;
+                console.log(Num);
+                let lineNum = Num-(numbers/2);
+                var f_color = "#"+(parseInt(Math.random()*0xffffff)).toString(16);
+                tagArea.innerHTML+="<div class='item' style='color:"+f_color+";transform: rotate("+Num+"deg);'>"+participation[i].value+"</div>";
+                lineArea.innerHTML+="<div class='line' style='transform: rotate("+lineNum+"deg);'></div>"
+                val[i]= Num;
+                items[i]= participation[i].value;
+            }
         }
+        function inputMinus(){
+            document.g
+        }
+        
+        function Additional(){
+            let inputArea = document.getElementById("input_area");
+            inputArea.innerHTML += '<li><input placeholder="입력" class="participation"><button class="but">-</button></li>'
+        }
+
         function start(){
             let ran = Math.floor(Math.random()*360);
             let spin = ran - 2160 ;
