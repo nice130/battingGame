@@ -182,14 +182,14 @@
                 participation[i].value = participantsVal[i];
             }
         }
-
+        let spin = 0;
         function start(){
             if(items.length<2){
                 alert("참가설정후 시작해주세요");
                 return;
             }
             let ran = Math.floor(Math.random()*360);
-            let spin = ran - 2160 ;
+            spin += ran - 2160 ;
             roulette.style.transition= "transform 5s ease-in-out";
             roulette.style.transform="rotate("+spin+"deg)";
             let goalNumber = Math.abs(ran - 360);
@@ -198,15 +198,13 @@
             });
             let number = Number(degNum.findIndex(e=> e === closestNumber));
             document.getElementById("start").style.display ='none';		
-            
+            degNum = degNum.map(x=>(x-goalNumber)).map(x=>x>0 ? x : 360+x);
             setTimeout(() => {
                 result(items[number]);
             }, 5000);
             
         }
         function retry(){
-            roulette.style.transition= "transform 0s";
-            roulette.style.transform="rotate(0deg)";
             document.getElementById("start").style.display ='block';		
             document.getElementById("retry").style.display ='none';
         }
