@@ -24,8 +24,8 @@
             position:relative; 
 
             overflow: hidden;
-            width: 500px;
-            height: 500px;
+            width: 400px;
+            height: 400px;
             font-size: 30px;
             margin-left: auto;
             margin-right: auto;
@@ -91,7 +91,7 @@
         }
         #input_Participation{
             position: absolute;
-            margin-left: 30px;
+            margin-bottom: 10px;
         }
         #result{
             position: absolute;
@@ -104,7 +104,7 @@
     <div id="app">
         <h1>곰돌이 룰렛</h1>
         <button class="but" onclick="modeChange(`mobile`)" value="mobile">mobile</button>
-        <button class="but" onclick="modeChange(`web`)" value="web">web</button>
+        <button class="but" onclick="modeChange(`web`)" value="web" style="margin-bottom: 5px;">web</button>
         <div id="input_Participation">참가설정
             <div id="input_area">
                 <li><input placeholder="입력" class="participation"><button class="but" onclick="inputMinus(this)">-</button></li>
@@ -127,7 +127,7 @@
             </div>
         </div>
     </div>
-    <div id="but" style="margin-left:50%;">
+    <div id="but" style="margin-left:49%;margin-top: 5px;">
         <button onclick=start() id="start" class="but">start</button>
         <button onclick=retry() id="retry" style="display:none" class="but">retry</button> 
     </div>
@@ -224,10 +224,13 @@
                 // document.getElementById("result").style.position='static';
                 // document.getElementById("result").style.left='30px';
                 document.getElementById("input_Participation").style.position='static';
+                document.getElementById("input_Participation").style.marginLeft='auto';
+                document.getElementById("but").style.marginLeft='45%';
             }else{
                 // document.getElementById("result").style.position='absolute';
                 // document.getElementById("result").style.left=null;
                 document.getElementById("input_Participation").style.position='absolute';
+                document.getElementById("but").style.marginLeft='49%';
             }
             
         }
