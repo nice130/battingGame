@@ -90,11 +90,11 @@
             background-color: burlywood;
         }
         #input_Participation{
-            position:absolute;
+            position: absolute;
             margin-left: 30px;
         }
         #result{
-            position:absolute;
+            position: absolute;
             right: 30px;
             color: rgb(89, 79, 66);
         }
@@ -103,7 +103,8 @@
 <body style="background-image:url('img/gomdol.png');background-Size : 100%">
     <div id="app">
         <h1>곰돌이 룰렛</h1>
-        <h2>-web버전-</h2>
+        <button class="but" onclick="modeChange(`mobile`)" value="mobile">mobile</button>
+        <button class="but" onclick="modeChange(`web`)" value="web">web</button>
         <div id="input_Participation">참가설정
             <div id="input_area">
                 <li><input placeholder="입력" class="participation"><button class="but" onclick="inputMinus(this)">-</button></li>
@@ -112,8 +113,8 @@
             <button class="but" onclick="Additional()">추가</button>
             <button class="but" onclick="Insertion()">설정</button>
         </div>
-        <div id="result" style="display:none">당첨 결과
-        </div>
+        <!-- <div id="result" style="display:none">당첨 결과
+        </div> -->
         <div class="roulette-outer">
             <div class="roulette-pin" id="roulette-pin"></div>
             <div class="roulette" id="roulette">
@@ -126,16 +127,18 @@
             </div>
         </div>
     </div>
-    <div id="but" style="margin-left:48%;">
+    <div id="but" style="margin-left:50%;">
         <button onclick=start() id="start" class="but">start</button>
         <button onclick=retry() id="retry" style="display:none" class="but">retry</button> 
     </div>
+    
     <script>
         let participation = document.getElementsByClassName("participation");
         let roulette = document.getElementById("roulette");
         let items=[];
         let degNum = [];
         let res = [];
+        let inputArea = document.getElementById("input_area");
         function Insertion(){
             for(let i=0;participation.length>i;i++){
                 if(participation[i].value==null||participation[i].value==''){
@@ -172,7 +175,6 @@
         
         function Additional(){
             let participantsVal = [];
-            let inputArea = document.getElementById("input_area");
             for(let i=0;participation.length>i;i++){
                 if(participation[i].value!=null || participation[i].value!=''){
                     participantsVal[i] = participation[i].value;
@@ -202,6 +204,7 @@
             degNum = degNum.map(x=>(x-goalNumber)).map(x=>x>0 ? x : 360+x);
             setTimeout(() => {
                 result(items[number]);
+                alert("당첨 : "+items[number])
             }, 5000);
             
         }
@@ -212,11 +215,22 @@
         
         function result(result){
             document.getElementById("retry").style.display ='block';
-            document.getElementById("result").style.display ='block';
-            document.getElementById("result").innerHTML+='<li class="res">'+result+'</li>';
+            // document.getElementById("result").style.display ='block';
+            // document.getElementById("result").innerHTML+='<li class="res">'+result+'</li>';
+        }
+        function modeChange(value){
+            console.log(value);
+            if(value=="mobile"){
+                // document.getElementById("result").style.position='static';
+                // document.getElementById("result").style.left='30px';
+                document.getElementById("input_Participation").style.position='static';
+            }else{
+                // document.getElementById("result").style.position='absolute';
+                // document.getElementById("result").style.left=null;
+                document.getElementById("input_Participation").style.position='absolute';
+            }
             
         }
-        
     </script>
 </body>
 </html>
