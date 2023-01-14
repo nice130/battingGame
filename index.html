@@ -138,6 +138,7 @@
         let items=[];
         let degNum = [];
         let res = [];
+        let newSetting = false;
         let inputArea = document.getElementById("input_area");
         function Insertion(){
             for(let i=0;participation.length>i;i++){
@@ -145,6 +146,11 @@
                     alert('참가내용을 입력해주세요');
                     return;
                 }
+            }
+            if(newSetting){
+                roulette.style.transition= "transform 0s ease-in-out";
+                roulette.style.transform="rotate(0deg)";
+                newGame();
             }
             let numbers = 360/participation.length;
             let tagArea = document.getElementById("room");
@@ -163,6 +169,7 @@
                 degNum[i]= Num;
                 items[i]= participation[i].value;
             }
+            newSetting= true;
         }
         function inputMinus(e){
             if(participation.length<=2){
@@ -171,6 +178,10 @@
             }else{
                 e.closest('li').remove();
             }
+        }
+
+        function newGame(){
+            document.getElementById("room").innerHTML="";
         }
         
         function Additional(){
